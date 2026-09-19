@@ -1,6 +1,6 @@
 # TARS Cloud Website
 
-The official public website, technical documentation hub, and download distribution portal for TARS Cloud (`tars.cloud`).
+The official public website, technical documentation hub, and download distribution portal for TARS Cloud (`tars-cloud.ai`).
 
 ## Language
 
