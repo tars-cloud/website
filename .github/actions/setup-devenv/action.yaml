@@ -36,11 +36,18 @@ runs:
         skipPush: ${{ inputs.skip-push }}
 
     - name: Install Devenv CLI
-      if: runner.environment == 'github-hosted'
       shell: bash
       run: |
-        if ! command -v devenv &>/dev/null; then
-          nix profile install --accept-flake-config tarball+https://install.devenv.sh/latest
+        if [ -d "$HOME/.nix-profile/bin" ]; then
+          echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.nix-profile/bin:$PATH"
+        fi
+        if ! command -v devenv >/dev/null 2>&1; then
+          nix profile add --accept-flake-config nixpkgs#devenv || nix profile install --accept-flake-config tarball+https://install.devenv.sh/latest
+          if [ -d "$HOME/.nix-profile/bin" ]; then
+            echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+            export PATH="$HOME/.nix-profile/bin:$PATH"
+          fi
         fi
 
     - name: Warm Up Devenv Environment
