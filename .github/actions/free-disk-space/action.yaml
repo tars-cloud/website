@@ -1,0 +1,17 @@
+name: "Free Disk Space"
+description: "Optimize available disk space by removing pre-installed software on GitHub-hosted Linux runners."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Free Disk Space
+      if: runner.environment == 'github-hosted' && runner.os == 'Linux'
+      shell: bash
+      run: |
+        echo "Optimizing runner disk space..."
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/local/share/boost
+        sudo chown -R "$USER:$USER" "$AGENT_TOOLSDIRECTORY" 2>/dev/null || true
+        df -h /

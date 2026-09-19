@@ -1,0 +1,81 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - trunk
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+environment:
+  name: github-pages
+  url: ${{ steps.deployment.outputs.page_url }}
+
+jobs:
+  deploy:
+    name: Build & Publish GitHub Pages
+    runs-on: [self-hosted, tars-cloud]
+    steps:
+      - name: Checkout Source Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Optimize Runner Disk Space
+        id: disk_space
+        uses: ./.github/actions/free-disk-space
+
+      - name: Initialize Devenv Toolchain
+        id: devenv_setup
+        uses: ./.github/actions/setup-devenv
+
+      - name: Compile Production Site & Search Index
+        id: build
+        run: devenv --no-tui shell -- zola build && devenv --no-tui shell -- pagefind --site public
+
+      - name: Verify Routing & Crawler Directives
+        id: verify_assets
+        run: |
+          test -f public/CNAME
+          test "$(cat public/CNAME)" = "tars-cloud.ai"
+          test -f public/robots.txt
+          grep -q "https://tars-cloud.ai/sitemap.xml" public/robots.txt
+          test -f public/pagefind/pagefind.js
+
+      - name: Configure GitHub Pages
+        id: pages_config
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        id: upload_pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Render Summary Table
+        if: always()
+        uses: ./.github/actions/step-summary
+        with:
+          title: "Pages Deployment Summary"
+          jobs: |
+            Checkout Source Code|${{ steps.checkout.outcome }}
+            Optimize Runner Disk Space|${{ steps.disk_space.outcome }}
+            Initialize Devenv Toolchain|${{ steps.devenv_setup.outcome }}
+            Compile Production Site & Search Index|${{ steps.build.outcome }}
+            Verify Routing & Crawler Directives|${{ steps.verify_assets.outcome }}
+            Configure GitHub Pages|${{ steps.pages_config.outcome }}
+            Upload Pages Artifact|${{ steps.upload_pages.outcome }}
+            Deploy to GitHub Pages|${{ steps.deployment.outcome }}
+          footer: "🚀 Successfully published to [https://tars-cloud.ai](https://tars-cloud.ai)"

@@ -1,0 +1,48 @@
+name: "Setup Devenv"
+description: "Initialize Nix and warm up the devenv shell environment."
+
+inputs:
+  cachix-cache-name:
+    description: "Cachix cache name."
+    required: false
+    default: "devenv"
+  cachix-auth-token:
+    description: "Cachix authorization token."
+    required: false
+    default: ""
+  skip-push:
+    description: "Skip pushing build artifacts to Cachix."
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Free Disk Space
+      uses: ./.github/actions/free-disk-space
+
+    - name: Install Nix
+      if: runner.environment == 'github-hosted'
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+
+    - name: Install Cachix
+      if: runner.environment == 'github-hosted'
+      uses: cachix/cachix-action@v15
+      with:
+        name: ${{ inputs.cachix-cache-name }}
+        authToken: ${{ inputs.cachix-auth-token }}
+        skipPush: ${{ inputs.skip-push }}
+
+    - name: Install Devenv CLI
+      if: runner.environment == 'github-hosted'
+      shell: bash
+      run: |
+        if ! command -v devenv &>/dev/null; then
+          nix profile install --accept-flake-config tarball+https://install.devenv.sh/latest
+        fi
+
+    - name: Warm Up Devenv Environment
+      shell: bash
+      run: devenv --no-tui shell -- echo "devenv ready"

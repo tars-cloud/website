@@ -1,0 +1,31 @@
+# Authoritative configuration for TARS Cloud Website (https://tars-cloud.ai)
+base_url = "https://tars-cloud.ai"
+title = "TARS Cloud"
+description = "Official portal, documentation hub, and download distribution center for TARS Cloud."
+default_language = "en"
+
+build_search_index = false
+compile_sass = false
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+taxonomies = [
+  { name = "tags", feed = true },
+  { name = "categories", feed = true }
+]
+
+[extra]
+repository_url = "https://github.com/tars-cloud/website"
+docs_url = "https://tars-cloud.ai/docs"
+downloads_url = "https://tars-cloud.ai/downloads"
+contact_email = "cooper@tars-cloud.ai"
+
+theme_mode = "tactical-cyberpunk"
+accent_cyan = "#00f3ff"
+accent_amber = "#ffb700"
+bg_dark = "#0a0d12"
+bg_panel = "#121820"
+enable_scanlines = true
+scanline_opacity = 0.08
+terminal_font = "JetBrains Mono, monospace"
+body_font = "Inter, sans-serif"

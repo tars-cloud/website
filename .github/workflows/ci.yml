@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify Toolchain & Build
+    runs-on: [self-hosted, tars-cloud]
+    steps:
+      - name: Checkout Source Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Optimize Runner Disk Space
+        id: disk_space
+        uses: ./.github/actions/free-disk-space
+
+      - name: Initialize Devenv Toolchain
+        id: devenv_setup
+        uses: ./.github/actions/setup-devenv
+
+      - name: Run Devenv Test Suite
+        id: test
+        run: devenv test
+
+      - name: Validate Zola Syntax & Links
+        id: zola_check
+        run: devenv --no-tui shell -- zola check
+
+      - name: Compile Site & Generate Search Index
+        id: build
+        run: devenv --no-tui shell -- zola build && devenv --no-tui shell -- pagefind --site public
+
+      - name: Verify Routing & Crawler Directives
+        id: verify_assets
+        run: |
+          test -f public/CNAME
+          test "$(cat public/CNAME)" = "tars-cloud.ai"
+          test -f public/robots.txt
+          grep -q "https://tars-cloud.ai/sitemap.xml" public/robots.txt
+          test -f public/pagefind/pagefind.js
+
+      - name: Render Summary Table
+        if: always()
+        uses: ./.github/actions/step-summary
+        with:
+          title: "CI Verification Summary"
+          jobs: |
+            Checkout Source Code|${{ steps.checkout.outcome }}
+            Optimize Runner Disk Space|${{ steps.disk_space.outcome }}
+            Initialize Devenv Toolchain|${{ steps.devenv_setup.outcome }}
+            Run Devenv Test Suite|${{ steps.test.outcome }}
+            Validate Zola Syntax & Links|${{ steps.zola_check.outcome }}
+            Compile Site & Generate Search Index|${{ steps.build.outcome }}
+            Verify Routing & Crawler Directives|${{ steps.verify_assets.outcome }}
