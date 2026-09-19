@@ -14,14 +14,15 @@ permissions:
   pages: write
   id-token: write
 
-environment:
-  name: github-pages
-  url: ${{ steps.deployment.outputs.page_url }}
-
 jobs:
   deploy:
     name: Build & Publish GitHub Pages
-    runs-on: [self-hosted, tars-cloud]
+    runs-on:
+      group: tars-cloud
+      labels: [self-hosted, nixos]
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout Source Code
         id: checkout

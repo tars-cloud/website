@@ -18,7 +18,9 @@ permissions:
 jobs:
   verify:
     name: Verify Toolchain & Build
-    runs-on: [self-hosted, tars-cloud]
+    runs-on:
+      group: tars-cloud
+      labels: [self-hosted, nixos]
     steps:
       - name: Checkout Source Code
         id: checkout
