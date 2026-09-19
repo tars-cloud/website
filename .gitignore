@@ -30,3 +30,14 @@ devenv.local.yaml
 
 # pre-commit
 .pre-commit-config.yaml
+
+# Build outputs
+public/
+.pagefind/
+
+# Cache directories
+.cache/
+
+# Operating system files
+.DS_Store
+Thumbs.db
