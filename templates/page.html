@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+  <nav aria-label="Breadcrumb" class="font-mono text-xs text-text-muted flex flex-wrap items-center gap-2 border-b border-border pb-3">
+    <a href="/" class="hover:text-accent-cyan transition-colors">ROOT //</a>
+    {% if page.ancestors is defined %}
+      {% for ancestor_path in page.ancestors %}
+        {% if ancestor_path != "_index.md" %}
+          {% set ancestor = get_section(path=ancestor_path) %}
+          <span class="text-border" aria-hidden="true">/</span>
+          <a href="{{ ancestor.permalink | safe }}" class="hover:text-accent-cyan transition-colors uppercase">{{ ancestor.title }}</a>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    <span class="text-border" aria-hidden="true">/</span>
+    <span class="text-accent-cyan uppercase" aria-current="page">{{ page.title }}</span>
+  </nav>
+
+  <header class="tactical-panel p-6 sm:p-8 space-y-4">
+    <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
+      <span class="status-chip status-chip-nominal">DOC_SPEC // VERIFIED</span>
+      {% if page.date %}
+        <time datetime="{{ page.date }}" class="text-text-muted">DATE // {{ page.date | date(format="%Y-%m-%d") }}</time>
+      {% endif %}
+      {% if page.reading_time %}
+        <span class="text-accent-amber">EST_READ // {{ page.reading_time }} MIN</span>
+      {% endif %}
+    </div>
+
+    <h1 class="text-2xl sm:text-4xl font-mono font-bold tracking-tight text-text-primary">
+      {{ page.title }}
+    </h1>
+
+    {% if page.description %}
+      <p class="text-text-muted text-base sm:text-lg leading-relaxed">
+        {{ page.description }}
+      </p>
+    {% endif %}
+  </header>
+
+  <article class="prose-tars tactical-panel p-6 sm:p-8">
+    {{ page.content | safe }}
+  </article>
+</div>
+{% endblock %}

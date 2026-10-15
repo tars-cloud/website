@@ -17,7 +17,7 @@
     pkgs.jq
   ];
 
-  scripts.build.exec = "zola build && pagefind --site public";
+  scripts.build.exec = "tailwindcss -i styles/input.css -o static/css/custom.css --minify && zola build && pagefind --site public";
   scripts.check.exec = "zola check";
   scripts.serve.exec = "zola serve --drafts";
 
@@ -30,6 +30,7 @@
   '';
 
   enterTest = ''
+    tailwindcss -i styles/input.css -o static/css/custom.css --minify
     zola check
     zola build
   '';

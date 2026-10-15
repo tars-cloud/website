@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}404 // TRANSMISSION_LOST | {{ config.title }}{% endblock %}
+
+{% block content %}
+<section aria-labelledby="error-404-heading" class="max-w-3xl mx-auto my-6 sm:my-12">
+  <div class="tactical-panel crt-scanlines p-6 sm:p-10 space-y-6 border border-accent-amber/60 relative overflow-hidden">
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+      <span class="status-chip status-chip-amber inline-flex items-center gap-2">
+        <span class="status-pulse w-2 h-2 rounded-full bg-accent-amber inline-block" aria-hidden="true"></span>
+        <span>WARN // ROUTE_FAULT</span>
+      </span>
+      <span class="font-mono text-xs text-text-muted">TELEMETRY_FRAME // 0x0194</span>
+    </div>
+
+    <div class="space-y-3">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent-amber text-glow-amber">
+        ALERT // CARRIER_SIGNAL_INTERRUPTED
+      </p>
+      <h1 id="error-404-heading" class="font-mono text-2xl sm:text-4xl font-bold tracking-tight text-text-primary text-glow-cyan">
+        TRANSMISSION_LOST // 404_NOT_FOUND
+      </h1>
+      <p class="text-text-muted text-sm sm:text-base leading-relaxed">
+        The requested coordinate vector could not be resolved on the TARS sovereign edge mesh. Verify the URI path or reroute to an active command sector below.
+      </p>
+    </div>
+
+    <div class="bg-obsidian/90 border border-border p-4 sm:p-5 font-mono text-xs space-y-1.5">
+      <div class="text-accent-cyan font-semibold mb-2">// DIAGNOSTIC_TELEMETRY_READOUT</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-text-muted">
+        <div><span class="text-text-primary">STATUS_CODE:</span> 0x0194</div>
+        <div><span class="text-text-primary">HTTP_STATUS:</span> 404</div>
+        <div><span class="text-text-primary">SIGNAL_STATE:</span> CARRIER_DROPPED</div>
+        <div><span class="text-text-primary">ERROR_CLASS:</span> ROUTE_UNRESOLVED</div>
+        <div><span class="text-text-primary">NODE:</span> TARS-SOVEREIGN-EDGE</div>
+        <div><span class="text-text-primary">RECOVERY_ACTION:</span> REROUTE_TO_BASE</div>
+      </div>
+    </div>
+
+    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+      <a
+        href="/"
+        class="inline-flex items-center justify-center px-5 py-3 bg-accent-cyan text-obsidian font-mono text-xs font-bold uppercase tracking-widest hover:bg-accent-cyan-bright glow-cyan transition-colors"
+      >
+        RETURN_TO_STATION // /
+      </a>
+      <a
+        href="/docs/"
+        class="inline-flex items-center justify-center px-5 py-3 bg-surface-raised text-accent-cyan border border-accent-cyan font-mono text-xs font-bold uppercase tracking-widest hover:bg-accent-cyan/10 transition-colors"
+      >
+        OPEN_ARCHIVES // /docs/
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

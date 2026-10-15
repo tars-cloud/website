@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="tars-logo-title tars-logo-desc">
+  <title id="tars-logo-title">TARS Cloud Monolith Emblem</title>
+  <desc id="tars-logo-desc">Four-slab articulated TARS sovereign monolith in obsidian and raised slate with cyan vector bevels and tactical amber telemetry core.</desc>
+  <defs>
+    <linearGradient id="slab-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#121318" />
+      <stop offset="50%" stop-color="#0a0a0c" />
+      <stop offset="100%" stop-color="#121318" />
+    </linearGradient>
+    <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#00f0ff" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Outer tactical chamfered frame -->
+  <polygon points="14,6 106,6 114,14 114,106 106,114 14,114 6,106 6,14" fill="#0a0a0c" stroke="#27272a" stroke-width="1.5" />
+
+  <!-- Corner cyan reticles -->
+  <polyline points="6,24 6,14 14,6 24,6" fill="none" stroke="#00f0ff" stroke-width="2" />
+  <polyline points="96,6 106,6 114,14 114,24" fill="none" stroke="#00f0ff" stroke-width="2" />
+  <polyline points="6,96 6,106 14,114 24,114" fill="none" stroke="#00f0ff" stroke-width="2" />
+  <polyline points="96,114 106,114 114,106 114,96" fill="none" stroke="#00f0ff" stroke-width="2" />
+
+  <!-- Articulated four-slab monolith -->
+  <g filter="url(#cyan-glow)">
+    <!-- Slab 1 (outer left) -->
+    <rect x="18" y="20" width="18" height="80" rx="1" fill="url(#slab-grad)" stroke="#00f0ff" stroke-width="1.5" />
+    <line x1="21" y1="32" x2="33" y2="32" stroke="#27272a" stroke-width="1" />
+    <line x1="21" y1="88" x2="33" y2="88" stroke="#27272a" stroke-width="1" />
+
+    <!-- Slab 2 (inner left, articulated offset) -->
+    <rect x="40" y="14" width="18" height="92" rx="1" fill="url(#slab-grad)" stroke="#00f0ff" stroke-width="1.5" />
+    <rect x="43" y="22" width="12" height="16" fill="#0a0a0c" stroke="#00f0ff" stroke-width="0.75" />
+    <line x1="43" y1="88" x2="55" y2="88" stroke="#27272a" stroke-width="1" />
+
+    <!-- Slab 3 (inner right, articulated offset) -->
+    <rect x="62" y="14" width="18" height="92" rx="1" fill="url(#slab-grad)" stroke="#00f0ff" stroke-width="1.5" />
+    <rect x="65" y="22" width="12" height="16" fill="#0a0a0c" stroke="#00f0ff" stroke-width="0.75" />
+    <line x1="65" y1="88" x2="77" y2="88" stroke="#27272a" stroke-width="1" />
+
+    <!-- Slab 4 (outer right) -->
+    <rect x="84" y="20" width="18" height="80" rx="1" fill="url(#slab-grad)" stroke="#00f0ff" stroke-width="1.5" />
+    <line x1="87" y1="32" x2="99" y2="32" stroke="#27272a" stroke-width="1" />
+    <line x1="87" y1="88" x2="99" y2="88" stroke="#27272a" stroke-width="1" />
+  </g>
+
+  <!-- Central horizontal articulation bus and tactical amber telemetry core -->
+  <line x1="16" y1="60" x2="104" y2="60" stroke="#00f0ff" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="44" y="53" width="32" height="14" rx="1.5" fill="#0a0a0c" stroke="#ffb700" stroke-width="1.5" />
+  <rect x="48" y="57" width="10" height="6" fill="#ffb700" />
+  <rect x="62" y="57" width="10" height="6" fill="#ffb700" />
+</svg>
