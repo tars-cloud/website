@@ -38,6 +38,10 @@ github_org_url = "https://github.com/tars-cloud"
 og_image = "/images/og-banner.png"
 logo_path = "/images/tars-logo.svg"
 status_label = "SYS // NOMINAL"
+hero_badge = "SYS // SOVEREIGN_MULTI_AGENT_RUNTIME // GUARDS_V3.5"
+hero_headline = "Your AI Factory gives you tokens. TARS gives you governed outcomes"
+hero_subtitle = "SOVEREIGN MULTI-AGENT ENGINEERING // GOVERNED BY GUARDS"
+quickstart_cmd = "tars-run-issue --yolo 42"
 
 [[extra.menu_items]]
 name = "Docs"

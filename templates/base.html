@@ -151,7 +151,7 @@
     </nav>
   </header>
 
-  <main id="main-content" data-pagefind-body class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <main id="main-content" data-pagefind-body class="{% block main_class %}flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12{% endblock %}">
     {% block content %}{% endblock %}
   </main>
 
