@@ -1,0 +1,58 @@
+name: "Step Summary"
+description: "Render a standardized execution summary table to GITHUB_STEP_SUMMARY."
+
+inputs:
+  title:
+    description: "Summary table header title."
+    required: false
+    default: "Build & Test Summary"
+  jobs:
+    description: "Multiline list of pipe-delimited Step Name|outcome pairs."
+    required: true
+  footer:
+    description: "Optional markdown footer text."
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Write Step Summary
+      shell: bash
+      run: |
+        {
+          echo "## ${{ inputs.title }}"
+          echo ""
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "**Pull Request**: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"
+            echo "**Branch**: \`${{ github.head_ref }}\` → \`${{ github.base_ref }}\`"
+            echo ""
+          fi
+          echo "| Step | Status |"
+          echo "| :--- | :---: |"
+          while IFS='|' read -r step outcome; do
+            [ -z "$step" ] && continue
+            case "$outcome" in
+              success)
+                status="✅ Passed"
+                ;;
+              failure)
+                status="❌ Failed"
+                ;;
+              cancelled)
+                status="⛔ Cancelled"
+                ;;
+              skipped)
+                status="⏭️ Skipped"
+                ;;
+              *)
+                status="ℹ️ $outcome"
+                ;;
+            esac
+            echo "| $step | $status |"
+          done <<< "${{ inputs.jobs }}"
+          if [ -n "${{ inputs.footer }}" ]; then
+            echo ""
+            echo "${{ inputs.footer }}"
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"

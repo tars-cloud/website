@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tars-cloud.ai/sitemap.xml
