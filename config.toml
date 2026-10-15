@@ -29,3 +29,27 @@ enable_scanlines = true
 scanline_opacity = 0.08
 terminal_font = "JetBrains Mono, monospace"
 body_font = "Inter, sans-serif"
+
+obsidian = "#0a0a0c"
+surface_raised = "#121318"
+border_color = "#27272a"
+accent_cyan_hex = "#00f0ff"
+github_org_url = "https://github.com/tars-cloud"
+og_image = "/images/og-banner.png"
+logo_path = "/images/tars-logo.svg"
+status_label = "SYS // NOMINAL"
+
+[[extra.menu_items]]
+name = "Docs"
+url = "/docs/"
+external = false
+
+[[extra.menu_items]]
+name = "Downloads"
+url = "/downloads/"
+external = false
+
+[[extra.menu_items]]
+name = "GitHub"
+url = "https://github.com/tars-cloud"
+external = true

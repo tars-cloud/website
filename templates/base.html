@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="{{ lang | default(value=config.default_language) }}" class="dark bg-obsidian text-text-primary antialiased selection:bg-accent-cyan/20 selection:text-accent-cyan">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if page is defined and page.title %}
+    {% set meta_title = page.title ~ " | " ~ config.title %}
+  {% elif section is defined and section.title %}
+    {% set meta_title = section.title ~ " | " ~ config.title %}
+  {% else %}
+    {% set meta_title = config.title %}
+  {% endif %}
+  {% if page is defined and page.description %}
+    {% set meta_description = page.description %}
+  {% elif section is defined and section.description %}
+    {% set meta_description = section.description %}
+  {% else %}
+    {% set meta_description = config.description %}
+  {% endif %}
+  {% if current_url is defined and current_url %}
+    {% set canonical_url = current_url %}
+  {% elif page is defined and page.permalink %}
+    {% set canonical_url = page.permalink %}
+  {% elif section is defined and section.permalink %}
+    {% set canonical_url = section.permalink %}
+  {% else %}
+    {% set canonical_url = config.base_url ~ "/" %}
+  {% endif %}
+  {% set og_image_url = get_url(path="images/og-banner.png", trailing_slash=false) %}
+
+  <title>{% block title %}{{ meta_title }}{% endblock %}</title>
+  <meta name="description" content="{{ meta_description }}">
+  <link rel="canonical" href="{{ canonical_url | safe }}">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/images/tars-logo.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }} Atom Feed" href="{{ get_url(path="atom.xml", trailing_slash=false) | safe }}">
+
+  <meta property="og:type" content="{% if page is defined %}article{% else %}website{% endif %}">
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:title" content="{{ meta_title }}">
+  <meta property="og:description" content="{{ meta_description }}">
+  <meta property="og:url" content="{{ canonical_url | safe }}">
+  <meta property="og:image" content="{{ og_image_url | safe }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ meta_title }}">
+  <meta name="twitter:description" content="{{ meta_description }}">
+  <meta name="twitter:image" content="{{ og_image_url | safe }}">
+
+  <link rel="stylesheet" href="/css/custom.css">
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col bg-obsidian text-text-primary font-sans relative overflow-x-hidden">
+  {% if config.extra.enable_scanlines | default(value=true) %}
+  <div class="scanline-overlay fixed inset-0 pointer-events-none z-50" aria-hidden="true"></div>
+  {% endif %}
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-surface-raised focus:text-accent-cyan focus:border focus:border-accent-cyan focus:font-mono focus:text-xs">
+    SKIP_TO_MAIN_CONTENT // #main-content
+  </a>
+
+  <header class="sticky top-0 z-40 border-b border-border bg-obsidian/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <a href="/" class="group flex items-center gap-3 focus:outline-none">
+          <img src="{{ config.extra.logo_path | default(value="/images/tars-logo.svg") }}" alt="TARS Cloud" width="32" height="32" class="w-8 h-8 transition-transform duration-200 group-hover:scale-105">
+          <div class="flex flex-col">
+            <span class="font-mono font-bold tracking-wider text-sm sm:text-base text-text-primary group-hover:text-accent-cyan transition-colors">
+              TARS_CLOUD
+            </span>
+            <span class="font-mono text-[10px] tracking-widest text-text-muted uppercase">
+              SOVEREIGN // RUNTIME
+            </span>
+          </div>
+        </a>
+
+        <span class="status-chip status-chip-nominal hidden sm:inline-flex items-center gap-2" title="System telemetry nominal">
+          <span class="status-pulse w-2 h-2 rounded-full bg-status-nominal inline-block" aria-hidden="true"></span>
+          <span>{{ config.extra.status_label | default(value="SYS // NOMINAL") }}</span>
+        </span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6" aria-label="Primary Navigation">
+        {% if config.extra.menu_items is defined %}
+          {% for item in config.extra.menu_items %}
+            <a
+              href="{{ item.url | safe }}"
+              {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}
+              class="font-mono text-xs uppercase tracking-widest text-text-muted hover:text-accent-cyan transition-colors py-1 border-b border-transparent hover:border-accent-cyan"
+            >
+              {{ item.name }}{% if item.external %} <span aria-hidden="true" class="text-accent-amber">↗</span>{% endif %}
+            </a>
+          {% endfor %}
+        {% else %}
+          <a href="/docs/" class="font-mono text-xs uppercase tracking-widest text-text-muted hover:text-accent-cyan transition-colors">Docs</a>
+          <a href="/downloads/" class="font-mono text-xs uppercase tracking-widest text-text-muted hover:text-accent-cyan transition-colors">Downloads</a>
+          <a href="https://github.com/tars-cloud" target="_blank" rel="noopener noreferrer" class="font-mono text-xs uppercase tracking-widest text-text-muted hover:text-accent-cyan transition-colors">GitHub</a>
+        {% endif %}
+      </nav>
+
+      <div class="flex items-center gap-3">
+        {% block header_actions %}{% endblock %}
+
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-nav-drawer"
+          aria-label="Toggle tactical navigation drawer"
+          class="md:hidden inline-flex items-center justify-center p-2 border border-border bg-surface-raised text-text-primary hover:text-accent-cyan hover:border-accent-cyan focus:outline-none focus:ring-1 focus:ring-accent-cyan font-mono text-xs"
+        >
+          <span class="sr-only">Toggle navigation</span>
+          <span id="mobile-menu-label" class="font-mono text-xs tracking-wider">[MENU]</span>
+        </button>
+      </div>
+    </div>
+
+    <nav
+      id="mobile-nav-drawer"
+      aria-label="Mobile Navigation Drawer"
+      class="hidden md:hidden border-t border-border bg-surface-raised px-4 pt-3 pb-5 space-y-3"
+    >
+      <div class="flex items-center justify-between pb-2 border-b border-border">
+        <span class="font-mono text-[11px] uppercase tracking-widest text-text-muted">NAV_MATRIX // MOBILE</span>
+        <span class="status-chip status-chip-nominal inline-flex items-center gap-1.5">
+          <span class="status-pulse w-1.5 h-1.5 rounded-full bg-status-nominal inline-block" aria-hidden="true"></span>
+          <span>{{ config.extra.status_label | default(value="SYS // NOMINAL") }}</span>
+        </span>
+      </div>
+      <div class="flex flex-col space-y-2">
+        {% if config.extra.menu_items is defined %}
+          {% for item in config.extra.menu_items %}
+            <a
+              href="{{ item.url | safe }}"
+              {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}
+              class="font-mono text-xs uppercase tracking-widest text-text-primary hover:text-accent-cyan py-2 px-3 border border-transparent hover:border-border bg-obsidian/60 flex items-center justify-between"
+            >
+              <span>// {{ item.name }}</span>
+              <span class="text-accent-cyan">{% if item.external %}↗{% else %}→{% endif %}</span>
+            </a>
+          {% endfor %}
+        {% else %}
+          <a href="/docs/" class="font-mono text-xs uppercase tracking-widest text-text-primary hover:text-accent-cyan py-2 px-3">// Docs</a>
+          <a href="/downloads/" class="font-mono text-xs uppercase tracking-widest text-text-primary hover:text-accent-cyan py-2 px-3">// Downloads</a>
+          <a href="https://github.com/tars-cloud" target="_blank" rel="noopener noreferrer" class="font-mono text-xs uppercase tracking-widest text-text-primary hover:text-accent-cyan py-2 px-3">// GitHub</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" data-pagefind-body class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="border-t border-border bg-surface-raised mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="{{ config.extra.logo_path | default(value="/images/tars-logo.svg") }}" alt="TARS Cloud Emblem" width="24" height="24" class="w-6 h-6 opacity-90">
+        <div class="font-mono text-xs text-text-muted">
+          <p class="text-text-primary font-semibold">TARS CLOUD // SOVEREIGN AI INFRASTRUCTURE</p>
+          <p class="text-[11px] mt-0.5">© {{ now() | date(format="%Y") }} TARS Cloud Contributors. All telemetry verified.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 font-mono text-xs">
+        <a href="/docs/" class="text-text-muted hover:text-accent-cyan transition-colors">DOCS</a>
+        <span class="text-border" aria-hidden="true">/</span>
+        <a href="/downloads/" class="text-text-muted hover:text-accent-cyan transition-colors">DOWNLOADS</a>
+        <span class="text-border" aria-hidden="true">/</span>
+        <a href="{{ config.extra.github_org_url | default(value="https://github.com/tars-cloud") }}" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-cyan transition-colors">GITHUB</a>
+        <span class="text-border" aria-hidden="true">/</span>
+        <a href="{{ config.extra.repository_url | default(value="https://github.com/tars-cloud/website") }}" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-cyan transition-colors">SOURCE</a>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="status-chip status-chip-amber">LICENSE // MIT</span>
+        <span class="status-chip status-chip-nominal">AIRGAP_READY // ZERO_NPM_RUNTIME</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const btn = document.getElementById("mobile-menu-btn");
+      const drawer = document.getElementById("mobile-nav-drawer");
+      const label = document.getElementById("mobile-menu-label");
+      if (!btn || !drawer) return;
+      const setOpen = (open) => {
+        btn.setAttribute("aria-expanded", String(open));
+        drawer.classList.toggle("hidden", !open);
+        if (label) label.textContent = open ? "[CLOSE]" : "[MENU]";
+      };
+      btn.addEventListener("click", () => {
+        const isOpen = btn.getAttribute("aria-expanded") === "true";
+        setOpen(!isOpen);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
+          setOpen(false);
+          btn.focus();
+        }
+      });
+    })();
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
