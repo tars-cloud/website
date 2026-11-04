@@ -1,0 +1,597 @@
+{% extends "base.html" %}
+
+{% block main_class %}flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6{% endblock %}
+
+{% block content %}
+<section id="hero-terminal" class="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-6 lg:py-10 border-b border-border">
+  <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mb-6 border-b border-border/80 font-mono text-xs">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="status-chip status-chip-nominal inline-flex items-center gap-2">
+        <span class="status-pulse w-2 h-2 rounded-full bg-status-nominal inline-block" aria-hidden="true"></span>
+        <span>{{ section.extra.hero_badge | default(value=config.extra.hero_badge | default(value="SYS // SOVEREIGN_MULTI_AGENT_RUNTIME // GUARDS_V3.5")) }}</span>
+      </span>
+      <span class="status-chip status-chip-amber">PROTOCOL // GUARDS_V3.5</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="status-chip text-accent-cyan border-accent-cyan/40">GATE // COOPER_RATIFIED</span>
+      <span class="status-chip status-chip-nominal">AIRGAP // ZERO_REGISTRY</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="lg:col-span-6 space-y-6">
+      <div class="tactical-panel p-4 bg-obsidian/80 border-border">
+        <pre id="tars-ascii-banner" class="font-mono text-[10px] sm:text-xs leading-tight text-accent-cyan text-glow-cyan select-none overflow-x-auto" aria-label="TARS ASCII Banner">████████╗ █████╗ ██████╗ ███████╗   ██████╗██╗      ██████╗ ██╗   ██╗██████╗ 
+╚══██╔══╝██╔══██╗██╔══██╗██╔════╝  ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗
+   ██║   ███████║██████╔╝███████╗  ██║     ██║     ██║   ██║██║   ██║██║  ██║
+   ██║   ██╔══██║██╔══██╗╚════██║  ██║     ██║     ██║   ██║██║   ██║██║  ██║
+   ██║   ██║  ██║██║  ██║███████║  ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝
+   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝   ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝</pre>
+        <p
+          id="tars-matrix-subtitle"
+          data-target-text="{{ section.extra.hero_subtitle | default(value=config.extra.hero_subtitle | default(value='SOVEREIGN MULTI-AGENT ENGINEERING // GOVERNED BY GUARDS')) }}"
+          class="font-mono text-xs sm:text-sm tracking-widest text-accent-amber uppercase mt-3"
+        >{{ section.extra.hero_subtitle | default(value=config.extra.hero_subtitle | default(value="SOVEREIGN MULTI-AGENT ENGINEERING // GOVERNED BY GUARDS")) }}</p>
+      </div>
+
+      <h1 class="font-mono text-2xl sm:text-4xl lg:text-[2.5rem] font-bold tracking-tight text-text-primary leading-tight">
+        {{ section.extra.hero_headline | default(value=config.extra.hero_headline | default(value="Your AI Factory gives you tokens. TARS gives you governed outcomes")) }}
+      </h1>
+
+      <p class="text-sm sm:text-base text-text-muted leading-relaxed">
+        {{ section.extra.hero_summary | default(value="TARS orchestrates specialized engineering spokes inside isolated git worktrees under deterministic verification gates. Builders never grade their own work (CASE != DOYLE), human review happens once at specification, and the entire runtime operates air-gapped with zero external registry dependencies.") }}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 pt-1">
+        <a
+          id="cta-quickstart"
+          href="{{ section.extra.cta_primary_url | default(value='#terminal-console') | safe }}"
+          class="cta-breathe-cyan inline-flex items-center gap-2 px-5 py-3 bg-accent-cyan/15 border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-obsidian font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-accent-cyan"
+        >
+          <span>{{ section.extra.cta_primary_label | default(value="[QUICKSTART]") }}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+
+        <a
+          id="cta-documentation"
+          href="{{ section.extra.cta_secondary_url | default(value='/docs/') | safe }}"
+          class="inline-flex items-center gap-2 px-5 py-3 bg-surface-raised border border-border text-text-primary hover:border-accent-cyan hover:text-accent-cyan font-mono text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-accent-cyan"
+        >
+          <span>{{ section.extra.cta_secondary_label | default(value="[DOCUMENTATION]") }}</span>
+        </a>
+
+        <a
+          id="cta-access-console"
+          href="{{ section.extra.cta_tertiary_url | default(value='#comms-link') | safe }}"
+          class="inline-flex items-center gap-2 px-5 py-3 bg-surface-raised border border-accent-amber/50 text-accent-amber hover:border-accent-amber hover:bg-accent-amber/10 font-mono text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-accent-amber"
+        >
+          <span>{{ section.extra.cta_tertiary_label | default(value="[ACCESS CONSOLE]") }}</span>
+        </a>
+      </div>
+
+      <div class="tactical-panel p-3.5 bg-obsidian/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="font-mono text-xs overflow-x-auto">
+          <span class="text-text-muted select-none">$ </span>
+          <code class="text-accent-cyan">curl -fsSL https://tars-cloud.ai/install.sh | sh</code>
+        </div>
+        <button
+          type="button"
+          data-terminal-cmd="tarsctl status"
+          class="shrink-0 px-3 py-1.5 border border-accent-cyan/50 bg-surface-raised text-accent-cyan hover:bg-accent-cyan hover:text-obsidian font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer"
+        >
+          [SIMULATE_IN_TERMINAL]
+        </button>
+      </div>
+    </div>
+
+    <div id="terminal-console" class="lg:col-span-6 tactical-panel border-glow-cyan overflow-hidden flex flex-col">
+      <div class="px-4 py-2.5 bg-obsidian border-b border-border flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-status-fault/80 inline-block" aria-hidden="true"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-accent-amber/80 inline-block" aria-hidden="true"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-status-nominal/80 inline-block" aria-hidden="true"></span>
+          <span class="font-mono text-xs font-semibold text-text-primary ml-1">TTY_01 // TARS_PRIME_SHELL</span>
+        </div>
+        <span class="font-mono text-[11px] text-accent-cyan uppercase tracking-wider">SPOKE_LOCK // ENFORCED</span>
+      </div>
+
+      <div class="px-4 py-2 bg-surface-raised border-b border-border flex flex-wrap items-center gap-1.5">
+        <span class="font-mono text-[10px] text-text-muted uppercase tracking-wider mr-1">PRESETS:</span>
+        <button
+          type="button"
+          data-terminal-cmd="tarsctl status"
+          class="px-2 py-1 bg-obsidian border border-border hover:border-accent-cyan text-text-primary hover:text-accent-cyan font-mono text-[11px] transition-colors cursor-pointer"
+        >
+          tarsctl status
+        </button>
+        <button
+          type="button"
+          data-terminal-cmd="tars-run-issue --yolo 42"
+          class="px-2 py-1 bg-obsidian border border-border hover:border-accent-cyan text-accent-cyan font-mono text-[11px] transition-colors cursor-pointer"
+        >
+          tars-run-issue --yolo 42
+        </button>
+        <button
+          type="button"
+          data-terminal-cmd="tars-audit-workspace"
+          class="px-2 py-1 bg-obsidian border border-border hover:border-accent-cyan text-text-primary hover:text-accent-cyan font-mono text-[11px] transition-colors cursor-pointer"
+        >
+          tars-audit-workspace
+        </button>
+        <button
+          type="button"
+          data-terminal-cmd="help"
+          class="px-2 py-1 bg-obsidian border border-border hover:border-accent-cyan text-text-muted hover:text-accent-cyan font-mono text-[11px] transition-colors cursor-pointer"
+        >
+          help
+        </button>
+        <button
+          type="button"
+          data-terminal-cmd="clear"
+          class="px-2 py-1 bg-obsidian border border-border hover:border-accent-amber text-text-muted hover:text-accent-amber font-mono text-[11px] transition-colors cursor-pointer"
+        >
+          clear
+        </button>
+      </div>
+
+      <div
+        id="terminal-output"
+        class="terminal-scroll font-mono text-xs sm:text-sm p-4 h-80 sm:h-96 overflow-y-auto space-y-2 bg-obsidian/90"
+        role="log"
+        aria-live="polite"
+        aria-label="TARS interactive terminal output"
+      >
+        <div class="text-text-muted">[BOOT] TARS_PRIME v3.5.0 // SOVEREIGN RUNTIME INITIALIZED</div>
+        <div class="text-text-primary">
+          <span class="phase-chip-g mr-1.5">[G]</span>
+          <span class="phase-chip-u mr-1.5">[U]</span>
+          <span class="phase-chip-a mr-1.5">[A]</span>
+          <span class="phase-chip-r mr-1.5">[R]</span>
+          <span class="phase-chip-d mr-1.5">[D]</span>
+          <span class="phase-chip-s mr-1.5">[S]</span>
+          <span class="text-accent-cyan">GUARDS_LIFECYCLE // READY (CASE != DOYLE)</span>
+        </div>
+        <div class="text-text-muted">Type <span class="text-accent-cyan">tars-run-issue --yolo 42</span>, <span class="text-accent-cyan">tarsctl status</span>, <span class="text-accent-cyan">tars-audit-workspace</span>, or <span class="text-accent-cyan">help</span>.</div>
+      </div>
+
+      <form
+        id="terminal-form"
+        class="border-t border-border bg-surface-raised px-4 py-2.5 flex items-center gap-2"
+        autocomplete="off"
+      >
+        <label for="terminal-input" class="font-mono text-xs text-accent-cyan shrink-0 select-none">
+          cooper@tars-prime:~$
+        </label>
+        <input
+          id="terminal-input"
+          type="text"
+          name="command"
+          aria-label="Terminal command input"
+          placeholder="Type 'tars-run-issue --yolo 42' or 'help'..."
+          class="flex-1 min-w-0 bg-transparent text-text-primary font-mono text-xs sm:text-sm focus:outline-none placeholder:text-text-muted/60"
+        >
+        <span class="cursor-blink font-mono text-xs text-accent-cyan select-none" aria-hidden="true">█</span>
+        <button
+          id="terminal-exec-btn"
+          type="submit"
+          class="px-3 py-1 bg-accent-cyan/15 border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-obsidian font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+        >
+          [EXEC]
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="architectural-pillars" class="py-12 lg:py-16 border-b border-border space-y-8">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div>
+      <p class="font-mono text-xs text-accent-cyan uppercase tracking-widest">// 01_ARCHITECTURAL_LAWS</p>
+      <h2 class="font-mono text-xl sm:text-2xl font-bold text-text-primary mt-1">
+        THREE INVARIANTS FROM PITCH.MD
+      </h2>
+    </div>
+    <span class="status-chip status-chip-amber">GOVERNANCE // CRYPTOGRAPHICALLY_ENFORCED</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <article id="pillar-adversarial-physics" class="tactical-panel p-6 flex flex-col justify-between space-y-4 hover:border-accent-cyan transition-colors">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between gap-2">
+          <span class="status-chip text-accent-cyan border-accent-cyan/40">LAW_01 // CASE != DOYLE</span>
+          <span class="font-mono text-xs text-accent-amber">CASE ≠ DOYLE</span>
+        </div>
+        <h3 class="font-mono text-lg font-bold text-text-primary">
+          Adversarial Physics (CASE != DOYLE)
+        </h3>
+        <p class="text-sm text-text-muted leading-relaxed">
+          The builder spoke (<code class="text-accent-cyan">CASE</code>) never verifies its own implementation. Every candidate commit is handed across an isolated git worktree boundary to an adversarial verifier (<code class="text-accent-cyan">DOYLE</code>) that challenges claims against reproduction hashes (<code class="text-accent-cyan">evidence-generation-*.json</code>) and CRAP metrics.
+        </p>
+      </div>
+      <div class="pt-3 border-t border-border font-mono text-[11px] text-text-muted flex items-center justify-between">
+        <span>BUILDER: CASE (R.1)</span>
+        <span class="text-status-nominal">VERIFIER: DOYLE (R.2 / D.1)</span>
+      </div>
+    </article>
+
+    <article id="pillar-one-human-gate" class="tactical-panel p-6 flex flex-col justify-between space-y-4 hover:border-accent-cyan transition-colors">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between gap-2">
+          <span class="status-chip status-chip-amber">LAW_02 // ZERO_IDLE_COMPUTE</span>
+          <span class="font-mono text-xs text-accent-cyan">1_GATE // 0_WAIT</span>
+        </div>
+        <h3 class="font-mono text-lg font-bold text-text-primary">
+          One Human Gate with zero idle compute
+        </h3>
+        <p class="text-sm text-text-muted leading-relaxed">
+          Human judgment is concentrated at a single architectural checkpoint (<code class="text-accent-cyan">Cooper</code> ratifying <code class="text-accent-cyan">spec.md + design.md + structure.md</code>). Once ratified, unattended waves (<code class="text-accent-cyan">--yolo</code>) execute planning, implementation, verification, and PR packaging with zero idle compute.
+        </p>
+      </div>
+      <div class="pt-3 border-t border-border font-mono text-[11px] text-text-muted flex items-center justify-between">
+        <span>GATE: U.1 / A.2 BUNDLE</span>
+        <span class="text-accent-amber">IDLE_COMPUTE: 0.00%</span>
+      </div>
+    </article>
+
+    <article id="pillar-sovereignty-by-construction" class="tactical-panel p-6 flex flex-col justify-between space-y-4 hover:border-accent-cyan transition-colors">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between gap-2">
+          <span class="status-chip status-chip-nominal">LAW_03 // EMPTY_REGISTRY_AIRGAP</span>
+          <span class="font-mono text-xs text-status-nominal">ZERO_SAAS</span>
+        </div>
+        <h3 class="font-mono text-lg font-bold text-text-primary">
+          Sovereignty by Construction where air-gap is an empty registry
+        </h3>
+        <p class="text-sm text-text-muted leading-relaxed">
+          Engineered for classified and sovereign enclaves with zero mandatory SaaS control planes, zero npm runtime dependencies, and BLAKE3 content-addressed <code class="text-accent-cyan">casita</code> artifact stores. Operating air-gapped requires no special mode: an air-gap is simply an empty upstream registry.
+        </p>
+      </div>
+      <div class="pt-3 border-t border-border font-mono text-[11px] text-text-muted flex items-center justify-between">
+        <span>STORE: CASITA // BLAKE3</span>
+        <span class="text-status-nominal">UPSTREAM_DEPS: NONE</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="feature-grid" class="py-12 lg:py-16 border-b border-border space-y-8">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div>
+      <p class="font-mono text-xs text-accent-cyan uppercase tracking-widest">// 02_SYSTEM_TOPOLOGY_AND_GUARDS_LIFECYCLE</p>
+      <h2 class="font-mono text-xl sm:text-2xl font-bold text-text-primary mt-1">
+        PRIME-AND-SPOKES ARCHITECTURE &amp; GUARDS STATE MACHINE
+      </h2>
+    </div>
+    <span class="status-chip text-accent-cyan border-accent-cyan/40">PIPELINE // G -&gt; U -&gt; A -&gt; R -&gt; D -&gt; S</span>
+  </div>
+
+  <div class="tactical-panel p-5 bg-obsidian/80 space-y-4">
+    <div class="flex items-center justify-between font-mono text-xs text-text-muted">
+      <span>GUARDS_PHASE_PROGRESSION // DETERMINISTIC_STATE_GRAPH</span>
+      <span class="text-accent-cyan">6 PHASES // 12 SUB-GATES</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-g">G // GATHER</span>
+          <span class="font-mono text-[10px] text-text-muted">G.1-G.2</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">KIPP Research</p>
+        <p class="font-mono text-[11px] text-text-muted">interview.md + evidence JSON</p>
+      </div>
+
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-u">U // UNDERSTAND</span>
+          <span class="font-mono text-[10px] text-text-muted">U.1</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">BRAND Scope</p>
+        <p class="font-mono text-[11px] text-text-muted">spec.md + scope lock</p>
+      </div>
+
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-a">A // ARCHITECT</span>
+          <span class="font-mono text-[10px] text-text-muted">A.1-A.3</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">BRAND + ROMILLY</p>
+        <p class="font-mono text-[11px] text-text-muted">design.md + Cooper Gate + plan.md</p>
+      </div>
+
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-r">R // REALIZE</span>
+          <span class="font-mono text-[10px] text-text-muted">R.1-R.2</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">CASE != DOYLE</p>
+        <p class="font-mono text-[11px] text-text-muted">Worktree commit + verification</p>
+      </div>
+
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-d">D // DEMONSTRATE</span>
+          <span class="font-mono text-[10px] text-text-muted">D.1-D.2</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">DOYLE + KIPP</p>
+        <p class="font-mono text-[11px] text-text-muted">Scenario suite + docs sync</p>
+      </div>
+
+      <div class="p-3 bg-surface-raised border border-border space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="phase-chip-s">S // SHIP</span>
+          <span class="font-mono text-[10px] text-text-muted">S.1-S.2</span>
+        </div>
+        <p class="font-mono text-xs text-text-primary font-semibold">DOYLE + KIPP</p>
+        <p class="font-mono text-[11px] text-text-muted">PR manifest + spec review</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="tactical-panel p-6 space-y-3">
+      <span class="status-chip text-accent-cyan border-accent-cyan/40">TOPOLOGY // HUB_AND_SPOKES</span>
+      <h3 class="font-mono text-base font-bold text-text-primary">Prime-and-Spokes Topology</h3>
+      <p class="text-sm text-text-muted leading-relaxed">
+        <code class="text-accent-cyan">TARS</code> Prime coordinates five specialized spokes (<code class="text-accent-cyan">KIPP</code>, <code class="text-accent-cyan">BRAND</code>, <code class="text-accent-cyan">ROMILLY</code>, <code class="text-accent-cyan">CASE</code>, <code class="text-accent-cyan">DOYLE</code>) inside dedicated git worktrees with strict file-scope locks and SHA-256 contract receipts.
+      </p>
+    </div>
+
+    <div class="tactical-panel p-6 space-y-3">
+      <span class="status-chip status-chip-amber">LIFECYCLE // GUARDS_V3.5</span>
+      <h3 class="font-mono text-base font-bold text-text-primary">Deterministic GUARDS Lifecycle</h3>
+      <p class="text-sm text-text-muted leading-relaxed">
+        Six sequential verification phases (<code class="text-accent-cyan">G -&gt; U -&gt; A -&gt; R -&gt; D -&gt; S</code>) protected by circuit breakers, reproduction evidence disposition, and automated rework routing when verification gates fail.
+      </p>
+    </div>
+
+    <div class="tactical-panel p-6 space-y-3">
+      <span class="status-chip status-chip-nominal">AIRGAP // CASITA_BLAKE3</span>
+      <h3 class="font-mono text-base font-bold text-text-primary">Airgap Bundles &amp; Casita Storage</h3>
+      <p class="text-sm text-text-muted leading-relaxed">
+        Every release ships with content-addressed BLAKE3 <code class="text-accent-cyan">casita</code> archives, offline WebAssembly Pagefind search indices, and POSIX <code class="text-accent-cyan">install.sh</code> SHA-256 verification.
+      </p>
+    </div>
+  </div>
+
+  <div id="mission-brief" class="tactical-panel p-6 sm:p-8 prose-tars">
+    {{ section.content | safe }}
+  </div>
+</section>
+
+<section id="comms-link" class="py-12 lg:py-16 space-y-8">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div>
+      <p class="font-mono text-xs text-accent-cyan uppercase tracking-widest">// 03_TELEMETRY_MONITOR_AND_COMMS_LINK</p>
+      <h2 class="font-mono text-xl sm:text-2xl font-bold text-text-primary mt-1">
+        PRIME-AND-SPOKES TELEMETRY &amp; RFC 6068 DISPATCH
+      </h2>
+    </div>
+    <span class="status-chip status-chip-nominal">ENDPOINT //mailto:cooper@tars-cloud.ai</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="lg:col-span-7 tactical-panel overflow-hidden flex flex-col">
+      <div class="px-4 py-3 bg-obsidian border-b border-border flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span id="telemetry-status-badge" class="status-chip status-chip-nominal">STREAM // ACTIVE</span>
+          <span id="telemetry-counter" class="font-mono text-xs text-text-muted">FRAMES: 04</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            id="telemetry-toggle-btn"
+            type="button"
+            class="px-2.5 py-1 bg-surface-raised border border-border hover:border-accent-cyan text-text-primary hover:text-accent-cyan font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer"
+          >
+            [PAUSE_STREAM]
+          </button>
+          <button
+            id="telemetry-clear-btn"
+            type="button"
+            class="px-2.5 py-1 bg-surface-raised border border-border hover:border-accent-amber text-text-muted hover:text-accent-amber font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer"
+          >
+            [CLEAR_FEED]
+          </button>
+        </div>
+      </div>
+
+      <div class="px-4 py-2 bg-surface-raised border-b border-border flex flex-wrap items-center justify-between gap-2 font-mono text-[11px]">
+        <span class="text-accent-cyan font-semibold">PRIME: TARS [HUB_NOMINAL]</span>
+        <div class="flex flex-wrap items-center gap-2 text-text-muted">
+          <span>KIPP:<strong class="text-accent-cyan">G/D</strong></span>
+          <span>BRAND:<strong class="text-accent-cyan">U/A</strong></span>
+          <span>ROMILLY:<strong class="text-accent-cyan">A.3</strong></span>
+          <span>CASE:<strong class="text-accent-amber">R.1</strong></span>
+          <span>DOYLE:<strong class="text-status-nominal">R.2/D.1/S</strong></span>
+        </div>
+      </div>
+
+      <div
+        id="telemetry-feed"
+        class="terminal-scroll font-mono text-xs p-4 h-80 overflow-y-auto space-y-2 bg-obsidian/90"
+        role="log"
+        aria-live="polite"
+        aria-label="Prime and Spokes live telemetry stream"
+      >
+        <div class="p-2 border border-border bg-surface-raised/60 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="phase-chip-g mr-1.5">G.2</span>
+            <span class="text-accent-cyan font-semibold">PRIME -&gt; KIPP</span>
+            <span class="text-text-primary ml-1">harvest_evidence(issue=#42) -&gt; sha256:007dd10e</span>
+          </div>
+          <span class="text-[10px] text-text-muted">RECEIPT // VERIFIED</span>
+        </div>
+        <div class="p-2 border border-border bg-surface-raised/60 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="phase-chip-u mr-1.5">U.1</span>
+            <span class="text-accent-cyan font-semibold">BRAND -&gt; PRIME</span>
+            <span class="text-text-primary ml-1">submit_contract(spec.md, evidence-disposition.json)</span>
+          </div>
+          <span class="text-[10px] text-text-muted">SCOPE_LOCK // 8_FILES</span>
+        </div>
+        <div class="p-2 border border-border bg-surface-raised/60 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="phase-chip-r mr-1.5">R.1</span>
+            <span class="text-accent-amber font-semibold">CASE -&gt; PRIME</span>
+            <span class="text-text-primary ml-1">commit_worktree(feat/landing, npm_deps=0)</span>
+          </div>
+          <span class="text-[10px] text-text-muted">WORKTREE // ISOLATED</span>
+        </div>
+        <div class="p-2 border border-border bg-surface-raised/60 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="phase-chip-d mr-1.5">R.2</span>
+            <span class="text-status-nominal font-semibold">DOYLE -&gt; PRIME</span>
+            <span class="text-text-primary ml-1">adversarial_verify(case!=doyle, zola_check=PASS)</span>
+          </div>
+          <span class="text-[10px] text-status-nominal">GATE // CERTIFIED</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5">
+      <form id="comms-dispatch-form" class="tactical-panel p-6 space-y-4" autocomplete="off">
+        <div class="flex items-center justify-between border-b border-border pb-3">
+          <div>
+            <h3 class="font-mono text-sm font-bold text-text-primary uppercase">COMMS_LINK // RFC 6068 DISPATCH</h3>
+            <p class="font-mono text-[11px] text-text-muted">Direct sovereign dispatch to cooper@tars-cloud.ai</p>
+          </div>
+          <span class="status-chip text-accent-cyan border-accent-cyan/40">RFC_6068</span>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="comms-callsign" class="block font-mono text-xs text-text-muted uppercase">
+            OPERATOR_CALLSIGN // ORG_ID
+          </label>
+          <input
+            id="comms-callsign"
+            type="text"
+            name="callsign"
+            value="OPERATOR // SOVEREIGN-NODE-01"
+            class="w-full px-3 py-2 bg-obsidian border border-border focus:border-accent-cyan text-text-primary font-mono text-xs focus:outline-none"
+          >
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="comms-topology" class="block font-mono text-xs text-text-muted uppercase">
+            DEPLOYMENT_TOPOLOGY
+          </label>
+          <select
+            id="comms-topology"
+            name="topology"
+            class="w-full px-3 py-2 bg-obsidian border border-border focus:border-accent-cyan text-text-primary font-mono text-xs focus:outline-none"
+          >
+            <option value="AIRGAP_ENCLAVE // ZERO_REGISTRY">AIRGAP_ENCLAVE // ZERO_REGISTRY</option>
+            <option value="ENTERPRISE_SELF_HOSTED // K8S">ENTERPRISE_SELF_HOSTED // K8S</option>
+            <option value="LOCAL_WORKSTATION // DEVENV">LOCAL_WORKSTATION // DEVENV</option>
+          </select>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="comms-message" class="block font-mono text-xs text-text-muted uppercase">
+            MISSION_OBJECTIVE // INQUIRY_PAYLOAD
+          </label>
+          <textarea
+            id="comms-message"
+            name="message"
+            rows="3"
+            class="w-full px-3 py-2 bg-obsidian border border-border focus:border-accent-cyan text-text-primary font-mono text-xs focus:outline-none"
+          >Requesting sovereign runtime provisioning brief and v3.5 airgap bundle verification keys.</textarea>
+        </div>
+
+        <div class="space-y-1.5">
+          <span class="block font-mono text-[11px] text-text-muted uppercase">PRE-FILLED TELEMETRY BLOCK PREVIEW</span>
+          <pre id="comms-payload-preview" class="font-mono text-[11px] p-3 bg-obsidian border border-border text-text-muted overflow-x-auto max-h-36">=== TARS_CLOUD // RFC_6068_TELEMETRY_DISPATCH ===
+OPERATOR_CALLSIGN: OPERATOR // SOVEREIGN-NODE-01
+DEPLOYMENT_TOPOLOGY: AIRGAP_ENCLAVE // ZERO_REGISTRY
+PROTOCOL_STATE: GUARDS_V3.5 // CASE_NEQ_DOYLE // AIRGAP_READY</pre>
+        </div>
+
+        <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 pt-1">
+          <a
+            id="comms-mailto-anchor"
+            href="mailto:cooper@tars-cloud.ai?subject=%5BTARS_COMMS_LINK%5D%20OPERATOR%20%2F%2F%20SOVEREIGN-NODE-01&amp;body=TARS_CLOUD_TELEMETRY_DISPATCH"
+            class="cta-breathe-cyan flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-accent-cyan/15 border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-obsidian font-mono text-xs font-bold uppercase tracking-wider transition-colors text-center"
+          >
+            [DISPATCH_RFC6068_MAILTO]
+          </a>
+          <button
+            id="comms-submit-btn"
+            type="submit"
+            class="px-3.5 py-2.5 bg-surface-raised border border-accent-amber/60 text-accent-amber hover:bg-accent-amber/10 font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+          >
+            [OPEN_COMMS_PACKET]
+          </button>
+          <button
+            id="comms-copy-btn"
+            type="button"
+            class="px-3.5 py-2.5 bg-surface-raised border border-border hover:border-accent-cyan text-text-primary hover:text-accent-cyan font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+          >
+            [COPY_TELEMETRY_PACKET]
+          </button>
+        </div>
+
+        <p id="comms-status-msg" class="font-mono text-xs text-accent-cyan min-h-[1rem]" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div
+    id="comms-fallback-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="comms-modal-title"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian/85 backdrop-blur-sm"
+  >
+    <div class="tactical-panel border-glow-cyan w-full max-w-2xl p-6 bg-surface-raised space-y-4">
+      <div class="flex items-center justify-between border-b border-border pb-3">
+        <div>
+          <h3 id="comms-modal-title" class="font-mono text-sm font-bold text-accent-cyan uppercase">
+            COMMS_LINK // RFC 6068 DISPATCH &amp; CLIPBOARD FALLBACK
+          </h3>
+          <p class="font-mono text-[11px] text-text-muted">
+            Use direct mail client launch or copy the pre-filled telemetry packet below.
+          </p>
+        </div>
+        <button
+          id="comms-modal-close-btn"
+          type="button"
+          class="px-2.5 py-1 border border-border hover:border-accent-amber text-text-muted hover:text-accent-amber font-mono text-xs uppercase cursor-pointer"
+        >
+          [CLOSE_MODAL]
+        </button>
+      </div>
+
+      <div class="space-y-1.5">
+        <span class="block font-mono text-[11px] text-text-muted uppercase">RFC 6068 MAILTO URI</span>
+        <pre id="comms-modal-uri" class="font-mono text-[11px] p-2.5 bg-obsidian border border-border text-accent-cyan overflow-x-auto">mailto:cooper@tars-cloud.ai</pre>
+      </div>
+
+      <div class="space-y-1.5">
+        <span class="block font-mono text-[11px] text-text-muted uppercase">DECODED TELEMETRY PACKET BODY</span>
+        <pre id="comms-modal-body" class="font-mono text-xs p-3 bg-obsidian border border-border text-text-primary overflow-x-auto max-h-56"></pre>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-end gap-3 pt-2 border-t border-border">
+        <a
+          id="comms-modal-mailto-link"
+          href="mailto:cooper@tars-cloud.ai"
+          class="px-4 py-2 bg-accent-cyan/15 border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-obsidian font-mono text-xs font-bold uppercase tracking-wider transition-colors"
+        >
+          [LAUNCH_MAIL_CLIENT]
+        </a>
+        <button
+          id="comms-modal-copy-btn"
+          type="button"
+          class="px-4 py-2 bg-surface-raised border border-accent-amber text-accent-amber hover:bg-accent-amber/10 font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+        >
+          [COPY_PACKET_TO_CLIPBOARD]
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script defer src="/js/terminal.js"></script>
+  <script defer src="/js/comms.js"></script>
+{% endblock %}

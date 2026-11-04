@@ -236,6 +236,106 @@ samp,
   border: 1px solid var(--color-border);
 }
 
+/* Terminal prompt cursor & CTA breathing animations */
+@keyframes tars-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: tars-cursor-blink 1.05s step-end infinite;
+}
+
+@keyframes tars-breathe-cyan {
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+    border-color: var(--color-accent-cyan);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(0, 243, 255, 0.55);
+    border-color: var(--color-accent-cyan-bright);
+  }
+}
+
+.cta-breathe-cyan {
+  animation: tars-breathe-cyan 2.8s ease-in-out infinite;
+}
+
+/* GUARDS verification phase status chips (G -> U -> A -> R -> D -> S) */
+.phase-chip-g,
+.phase-chip-u,
+.phase-chip-a,
+.phase-chip-r,
+.phase-chip-d,
+.phase-chip-s {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-obsidian);
+}
+
+.phase-chip-g {
+  color: var(--color-phase-g);
+  border-color: rgba(0, 240, 255, 0.45);
+}
+
+.phase-chip-u {
+  color: var(--color-phase-u);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.phase-chip-a {
+  color: var(--color-phase-a);
+  border-color: rgba(168, 85, 247, 0.45);
+}
+
+.phase-chip-r {
+  color: var(--color-phase-r);
+  border-color: rgba(255, 183, 0, 0.45);
+}
+
+.phase-chip-d {
+  color: var(--color-phase-d);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.phase-chip-s {
+  color: var(--color-phase-s);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+/* Dark tactical terminal & telemetry scrollbars */
+.terminal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-obsidian);
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.terminal-scroll::-webkit-scrollbar-track {
+  background: var(--color-obsidian);
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border: 1px solid var(--color-obsidian);
+}
+
 /* Accessibility & high-contrast fallbacks */
 @media (prefers-contrast: more) {
   html,
@@ -251,7 +351,8 @@ samp,
 
   .glow-cyan,
   .glow-amber,
-  .border-glow-cyan {
+  .border-glow-cyan,
+  .cta-breathe-cyan {
     box-shadow: none !important;
   }
 
@@ -261,13 +362,21 @@ samp,
   }
 
   .tactical-panel,
-  .status-chip {
+  .status-chip,
+  .phase-chip-g,
+  .phase-chip-u,
+  .phase-chip-a,
+  .phase-chip-r,
+  .phase-chip-d,
+  .phase-chip-s {
     border-color: #f4f4f6 !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .status-pulse {
+  .status-pulse,
+  .cursor-blink,
+  .cta-breathe-cyan {
     animation: none !important;
   }
 
